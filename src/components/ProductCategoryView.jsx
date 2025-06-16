@@ -1199,12 +1199,10 @@ const removeFromCart = async (productId) => {
                     </h4>
 
                     <div className="flex justify-between">
-                      <p
-                        className={`text-xs mb-1 mt-1 lg:mt-3 px-2 py-1 rounded-sm text-white shadow-sm flex justify-start items-center 
-    ${product.stock === "Available" ? "bg-green-600" : "bg-red-600"}`}
-                      >
-                        {product.stock}
-                      </p>
+                      <p className={`text-xs mb-1 mt-1 lg:mt-3 px-2 py-1 rounded-sm text-white shadow-sm flex justify-start items-center 
+  ${product.stock === "Available" ? "bg-green-600" : "bg-red-600"}`}>
+  {product.stock}
+</p>
                       {/* Rating */}
                       <div className="flex items-center mt-1 lg:mt-3 bg-[#ebf0ef] px-2 rounded-sm shadow-sm">
                         <div className="font-medium commonFont">
@@ -1238,45 +1236,55 @@ const removeFromCart = async (productId) => {
                         </span>
                       )}
                     </div>
-                    <button
-                      onClick={() => {
-                        const isInCart = cartItems.some(
-                          (item) => item.id === product.id
-                        );
-                        isInCart
-                          ? removeFromCart(product.id)
-                          : addToCart(product);
-                      }}
-                      className={`w-full rounded-lg py-2 mt-2 text-sm font-medium transition-colors flex items-center justify-center ${
-                        cartItems.some((item) => item.id === product.id)
-                          ? "bg-green-600 hover:bg-green-700 text-white"
-                          : "bg-blue-600 hover:bg-blue-700 text-white"
-                      }`}
-                    >
-                      {cartItems.some((item) => item.id === product.id) ? (
-                        <>
-                          <svg
-                            className="w-4 h-4 mr-2"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M5 13l4 4L19 7"
-                            ></path>
-                          </svg>
-                          Added to Cart
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart size={16} className="mr-2" />
-                          Add to Cart
-                        </>
-                      )}
-                    </button>
+                    {product.stock === "Available" ? (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          const isInCart = cartItems.some(
+                            (item) => item.id === product.id
+                          );
+                          isInCart
+                            ? removeFromCart(product.id)
+                            : addToCart(product);
+                        }}
+                        className={`w-full rounded-lg py-2 mt-2 text-sm font-medium transition-colors flex items-center justify-center ${
+                          cartItems.some((item) => item.id === product.id)
+                            ? "bg-green-600 hover:bg-green-700 text-white"
+                            : "bg-blue-600 hover:bg-blue-700 text-white"
+                        }`}
+                      >
+                        {cartItems.some((item) => item.id === product.id) ? (
+                          <>
+                            <svg
+                              className="w-4 h-4 mr-2"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M5 13l4 4L19 7"
+                              ></path>
+                            </svg>
+                            Added to Cart
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart size={16} className="mr-2" />
+                            Add to Cart
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        disabled
+                        className="w-full rounded-lg py-2 mt-2 text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
+                      >
+                        Out of Stock
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

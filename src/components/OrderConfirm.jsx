@@ -13,8 +13,9 @@ const OrderConfirm = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAddressForm, setShowAddressForm] = useState(false);
 
-  // Fetch cart items with real-time listener (same as BottomNav)
+  // Fetch cart items with real-time listener
   useEffect(() => {
     if (!currentUser?.uid) {
       setCartItems([]);
@@ -22,46 +23,36 @@ const OrderConfirm = () => {
       return;
     }
 
-    console.log('Setting up real-time listener for user:', currentUser.uid);
-
-    // Set up real-time listener for the user document
     const unsubscribe = onSnapshot(
       doc(db, "users", currentUser.uid),
       (docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log('Real-time data received:', userData);
-          console.log('Cart items from Firestore:', userData.cartItems);
           setCartItems(userData.cartItems || []);
         } else {
-          console.log('User document does not exist');
           setCartItems([]);
         }
         setIsLoading(false);
       },
       (error) => {
         console.error("Error listening to cart changes:", error);
-        // Fallback to currentUser.cartItems if listener fails
         setCartItems(currentUser.cartItems || []);
         setIsLoading(false);
       }
     );
 
-    // Initial load from currentUser if available
     if (currentUser.cartItems) {
-      console.log('Initial load from currentUser:', currentUser.cartItems);
       setCartItems(currentUser.cartItems);
     }
 
-    // Cleanup listener on unmount
     return () => {
-      console.log('Cleaning up listener');
       unsubscribe();
     };
   }, [currentUser?.uid]);
 
   const handleSelectAddress = (address) => {
     setSelectedAddress(address);
+    setShowAddressForm(false);
   };
 
   const handleSubmit = async (e) => {
@@ -76,12 +67,10 @@ const OrderConfirm = () => {
       return;
     }
 
-    // Calculate total amount
     const total = cartItems.reduce((sum, item) => {
       return sum + (item.salePrice * item.quantity);
     }, 0);
 
-    // Navigate to payment page with order details
     navigate('/payment', {
       state: {
         orderDetails: {
@@ -93,10 +82,8 @@ const OrderConfirm = () => {
     });
   };
 
-  // Calculate total amount
   const totalAmount = cartItems.reduce((sum, item) => sum + (item.salePrice * item.quantity), 0);
 
-  // Show loading while fetching cart data
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 py-12">
@@ -111,9 +98,6 @@ const OrderConfirm = () => {
       </div>
     );
   }
-
-  console.log('Rendering with cart items:', cartItems);
-  console.log('Cart items count:', cartItems.length);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -137,11 +121,41 @@ const OrderConfirm = () => {
               Shipping Details
             </h2>
 
-            <AddressManager
-              onSelectAddress={handleSelectAddress}
-              selectedAddressId={selectedAddress?.id}
-              hideAddressForm={true}
-            />
+            {showAddressForm ? (
+              <div className="border rounded-lg p-4">
+                <AddressManager 
+                  onSelectAddress={handleSelectAddress}
+                  selectedAddressId={selectedAddress?.id}
+                  hideAddressForm={false}
+                />
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setShowAddressForm(false)}
+                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <AddressManager
+                  onSelectAddress={handleSelectAddress}
+                  selectedAddressId={selectedAddress?.id}
+                  hideAddressForm={true}
+                />
+                {!selectedAddress && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAddressForm(true)}
+                    className="w-full py-2 px-4 border border-dashed border-gray-300 rounded-lg text-blue-600 hover:text-blue-700 hover:border-blue-300"
+                  >
+                    + Add New Address
+                  </button>
+                )}
+              </>
+            )}
           </div>
 
           {/* Order Summary */}

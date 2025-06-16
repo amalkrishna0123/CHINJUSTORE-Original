@@ -16,6 +16,7 @@ import apple from "../assets/apple.jpeg";
 import { useAuth } from "./AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdLogin } from "react-icons/md";
+import { VscAccount } from "react-icons/vsc";
 import {
   collection,
   getDocs,
@@ -30,6 +31,7 @@ import { db } from "../Firebase";
 import { optimizeProductData } from "../utils/imageCompression";
 import "swiper/css";
 import "swiper/css/pagination";
+import { IoIosCloseCircle } from "react-icons/io";
 import "swiper/css/navigation";
 import { useParams } from "react-router-dom";
 import { IoIosArrowRoundForward } from "react-icons/io";
@@ -681,23 +683,23 @@ const removeFromCart = async (productId) => {
     if (!showLoginModal) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg w-full max-w-md shadow-xl p-6 transform transition-all">
+      <div className="fixed inset-0 bg-[#fff] bg-opacity-50 z-50 flex items-center justify-center px-2">
+        <div className="bg-white rounded-lg border border-[#0000000d] w-full max-w-md shadow-xl p-6 transform transition-all">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-gray-800">
-              Sign in to Zepto
+              Sign in to Chinju Sore
             </h2>
             <button
               onClick={() => setShowLoginModal(false)}
-              className="text-gray-500 hover:text-gray-700 bg-gray-100 rounded-full p-2"
+              className="text-xl text-[#65D2CD] rounded-full p-2"
             >
-              <X size={18} />
+              <IoIosCloseCircle />
             </button>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
-              <span className="text-2xl">👤</span>
+            <div className="w-16 h-16 rounded-full bg-[#65D2CD] flex items-center justify-center mb-4">
+              <VscAccount className="text-white text-3xl" />
             </div>
 
             <p className="text-center text-gray-600 mb-6">

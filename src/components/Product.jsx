@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { VscAccount } from "react-icons/vsc";
+import { IoIosCloseCircle } from "react-icons/io";
 import { MdLogin } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "./AuthContext";
@@ -526,17 +527,17 @@ const ProductDetail = () => {
     if (!showLoginModal) return null;
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-[#39B2A7] bg-opacity-90 rounded-xl w-full max-w-md shadow-xl p-6 transform transition-all border-t-4 border-[#2e978e]">
+      <div className="fixed inset-0 bg-[#fff] border border-[#0000000f] bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="bg-[#fff] bg-opacity-90 rounded-xl w-full max-w-md shadow-xl p-6 transform transition-all border border-[#00000010]">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-white commonFont">
+            <h2 className="text-xl font-semibold commonFont">
               Sign in to Chinju Store
             </h2>
             <button
               onClick={() => setShowLoginModal(false)}
-              className="text-white hover:text-gray-700 bg-gray-100 rounded-full p-2 w-8 h-8 flex items-center justify-center transition-colors"
+              className="text-[#39B2A7] text-xl rounded-full p-2 flex items-center justify-center transition-colors"
             >
-              ✖
+              <IoIosCloseCircle/>
             </button>
           </div>
 
@@ -545,13 +546,13 @@ const ProductDetail = () => {
               <VscAccount className="text-white text-3xl" />
             </div>
 
-            <p className="text-center text-white mb-6">
+            <p className="text-center mb-6">
               Sign in to access your cart, save favorites, and check out faster!
             </p>
 
             <button
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center gap-2 border hover:text-black border-white rounded-lg py-3.5 px-4 text-white hover:bg-white transition duration-200 mb-4 shadow-sm"
+              className="w-full flex items-center border border-[#00000010] justify-center gap-2 hover:text-black rounded-lg py-3.5 px-4 hover:bg-white transition duration-200 mb-4 shadow-sm"
             >
               <FcGoogle size={24} />
               <span className="font-medium">Continue with Google</span>
@@ -559,7 +560,7 @@ const ProductDetail = () => {
 
             <button
               onClick={() => setShowLoginModal(false)}
-              className="w-full text-white border border-white py-3 rounded-lg hover:bg-white hover:text-black hover:bg-opacity-10 transition duration-200 font-medium"
+              className="w-full border border-[#00000010] shadow-sm py-3 rounded-lg  hover:text-black hover:bg-opacity-10 transition duration-200 font-medium"
             >
               Cancel
             </button>

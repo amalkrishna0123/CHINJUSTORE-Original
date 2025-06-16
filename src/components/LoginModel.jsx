@@ -100,7 +100,7 @@ const LoginModal = ({ showLoginModal, setShowLoginModal }) => {
     return (
       <form onSubmit={handleSubmit} className="space-y-4">
         <h2 className="text-xl font-semibold text-gray-800">
-          {isLogin ? 'Sign in to Zepto' : 'Create an Account'}
+          {isLogin ? 'Sign in to Chinju Store' : 'Create an Account'}
         </h2>
         
         {!isLogin && (

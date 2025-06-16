@@ -400,7 +400,7 @@ const ProductViewAll = () => {
         <div className="bg-[#39B2A7] bg-opacity-50 rounded-xl w-full max-w-md shadow-xl p-6 transform transition-all border-t-4 border-[#2e978e]">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-white">
-              Sign in to Zepto
+              Sign in to Chinju Store
             </h2>
             <button
               onClick={() => setShowLoginModal(false)}
@@ -565,7 +565,7 @@ const ProductViewAll = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="text-blue-600 text-3xl font-bold flex items-center">
-              zepto
+              Chinju Store
               <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium ml-3">
                 SUPER SAVER
               </span>
@@ -634,7 +634,7 @@ const ProductViewAll = () => {
                   to="/"
                   className="bg-white text-[#1a7e74] px-4 py-2 rounded-lg font-bold text-xl shadow-md"
                 >
-                  zepto
+                  Chinju Store
                 </Link>
                 <div className="flex space-x-3">
                   <div

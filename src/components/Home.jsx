@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { IoIosCloseCircle } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
 import apple from "../assets/apple.jpeg";
 import { useAuth } from "./AuthContext";
@@ -36,6 +37,7 @@ import ff from "../assets/ff.png";
 import fff from "../assets/fff.jpg";
 import dot from "../assets/dot.png";
 import HomeLoader from "./cart animations/HomeLoader";
+import LocationSetup from "./LocationSetup";
 
 const Home = () => {
   const [hoveredProduct, setHoveredProduct] = useState(null);
@@ -54,10 +56,11 @@ const Home = () => {
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
   const [productsLoader, setProductsLoader] = useState(true);
+  const [showLocationSetup, setShowLocationSetup] = useState(false);
   const [index, setIndex] = useState(0);
   const [userLocation, setUserLocation] = useState({
-    address: "Round North, Kodaly, Kerala", // Default address
-    deliveryTime: "9 mins",
+    address: "Select Your Location", // Default address
+    deliveryTime: "super fast",
   });
   const [isLoadingLocation, setIsLoadingLocation] = useState(false);
   const words = ["products", "categories", "services", "items"];
@@ -747,17 +750,17 @@ const Home = () => {
     if (!showLoginModal) return null;
 
     return (
-      <div className="fixed inset-0 bg-transparent z-50 flex items-center justify-center p-4">
-        <div className="bg-[#39B2A7] bg-opacity-50  rounded-xl w-full max-w-md shadow-xl p-6 transform transition-all border-t-4 border-[#2e978e]">
+      <div className="fixed bg-[#fff] z-50 flex items-center justify-center p-4 top-0 bottom-0 h-screen overflow-hidden">
+        <div className="bg-[#fff] border border-[#00000012]  rounded-xl w-full max-w-md shadow-xl p-6 transform transition-all">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="text-xl font-semibold">
               Sign in to Chinju Store
             </h2>
             <button
               onClick={() => setShowLoginModal(false)}
-              className="text-white hover:text-gray-700 bg-gray-100 rounded-full p-2 w-8 h-8 flex items-center justify-center transition-colors"
+              className="rounded-full p-2 text-xl text-[#65D2CD]  flex items-center justify-center transition-colors"
             >
-              ✖
+              <IoIosCloseCircle/>
             </button>
           </div>
 
@@ -766,21 +769,21 @@ const Home = () => {
               <VscAccount className="text-white text-3xl" />
             </div>
 
-            <p className="text-center text-white mb-6">
+            <p className="text-center mb-6">
               Sign in to access your cart, save favorites, and check out faster!
             </p>
 
             <button
               onClick={handleGoogleSignIn}
-              className="w-full flex items-center justify-center gap-2 border hover:text-black border-white rounded-lg py-3.5 px-4 text-white hover:bg-[#fff] transition duration-200 mb-4 shadow-sm"
+              className="w-full flex items-center justify-center gap-2 border border-[#0000000f] hover:text-black rounded-lg py-3.5 px-4 text-white hover:bg-[#fff] transition duration-200 mb-4 shadow-sm"
             >
               <FcGoogle size={24} />
-              <span className="font-medium">Continue with Google</span>
+              <span className="font-medium text-[#000]">Continue with Google</span>
             </button>
 
             <button
               onClick={() => setShowLoginModal(false)}
-              className="w-full text-[#fff] border border-[#fff] py-3 rounded-lg hover:bg-[#fff] hover:text-black hover:bg-opacity-10 hover:border-[#fff] transition duration-200 font-medium"
+              className="w-full text-[#000] border border-[#0000000f] shadow-sm py-3 rounded-lg hover:bg-[#fff] hover:text-black hover:bg-opacity-10 hover:border-[#fff] transition duration-200 font-medium"
             >
               Cancel
             </button>
@@ -931,7 +934,7 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-[300px]">
+    <div className="bg-[#ffffffe7] min-h-[300px]">
       {/* Gradient top bar */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 h-1"></div>
 
@@ -953,7 +956,7 @@ const Home = () => {
           <div className="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
             <div className="mr-3">
               <div className="text-blue-600 font-bold commonFont">
-                Delivery in {userLocation.deliveryTime}
+                Delivery in fast
               </div>
               <div className="flex items-center text-sm text-gray-600">
                 <span>{userLocation.address}</span>
@@ -961,13 +964,15 @@ const Home = () => {
               </div>
             </div>
             <div className="h-8 w-px bg-gray-300 mx-2"></div>
-            <button
-              onClick={fetchCurrentLocation}
-              disabled={isLoadingLocation}
-              className="text-indigo-500 font-medium flex items-center hover:text-indigo-600"
-            >
-              {isLoadingLocation ? "Loading..." : "Change"}
-            </button>
+            {showLocationSetup && (
+              <LocationSetup
+                onClose={() => setShowLocationSetup(false)}
+                onLocationSet={(location) => {
+                  setUserLocation(location);
+                  setShowLocationSetup(false);
+                }}
+              />
+            )}
           </div>
 
           {/* Search Bar */}
@@ -1171,7 +1176,8 @@ const Home = () => {
             <div className="flex flex-col">
               <div className="flex items-center space-x-2">
                 <span className="text-gray-800 text-sm commonFont">
-                  Delivery in {userLocation.deliveryTime}
+                  {/* Delivery in {userLocation.deliveryTime} */}
+                  Delivery in fast
                 </span>
                 <span className="bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">
                   FAST
@@ -1182,13 +1188,16 @@ const Home = () => {
               </div>
             </div>
 
-            <button
-              onClick={fetchCurrentLocation}
-              disabled={isLoadingLocation}
-              className="ml-4 bg-[#1a7e74] commonFont text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#16675f] transition-colors duration-200 disabled:opacity-50"
-            >
-              {isLoadingLocation ? "Loading..." : "Change"}
-            </button>
+
+            <a href="/locationSetup">
+              <button
+                // onClick={fetchCurrentLocation}
+                disabled={isLoadingLocation}
+                className="ml-4 bg-[#1a7e74] commonFont text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-[#16675f] transition-colors duration-200 disabled:opacity-50"
+              >
+                {isLoadingLocation ? "Loading..." : "Change"}
+              </button>
+            </a>
           </div>
 
           {/* Search Bar */}
@@ -1263,13 +1272,13 @@ const Home = () => {
       <LoginModal />
       <Cart isOpen={showCart} onClose={() => setShowCart(false)} />
       {homeLoading && <HomeLoader />}
-      <div className="relative">
+      <div className="relative bg-[#f3ffff]">
         <div className="absolute top-0 bottom-0 left-0 right-0 z-0 opacity-0 bg-no-repeat">
           <img src={fff} alt="" className="w-full h-full object-cover" />
         </div>
         <div className=" relative">
           {/* Hero Banner */}
-          <div className="max-w-7xl mx-auto px-2 mt-3">
+          <div className="max-w-7xl mx-auto px-2 mt-3 ">
             <div className="rounded-2xl overflow-hidden">
               <Swiper
                 modules={[Autoplay, Pagination]}
@@ -1313,7 +1322,7 @@ const Home = () => {
                             <Link
                               to={`/category/${encodeURIComponent(sub.name)}`}
                               key={sub.id}
-                              className="rounded-lg p-4 flex flex-col items-center transition-all cursor-pointer overflow-hidden hover:bg-gray-50"
+                              className="rounded-lg flex flex-col border border-[#00000014] shadow-sm items-center transition-all cursor-pointer overflow-hidden hover:bg-gray-50"
                               onClick={() => setSelectedCategory(sub.name)}
                             >
                               <div className="w-20 h-20 lg:w-[300px] mb-3 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
@@ -1425,18 +1434,18 @@ const Home = () => {
               <>
                 {groupedCategories.map((main) => (
                   <div key={main.id} className="mb-3">
-                    <h2 className="text-xl text-gray-800 md:mb-2 CategoryTitle lg:text-3xl">
+                    <h2 className="text-xl text-gray-800 mb-2 md:mb-2 CategoryTitle lg:text-3xl">
                       {main.name}
                     </h2>
-                    <div className="grid md:grid-cols-6 lg:grid-cols-5 grid-cols-4 gap-x-2 md:gap-4 lg:gap-5">
+                    <div className="grid md:grid-cols-6 lg:grid-cols-5 grid-cols-4 gap-x-3 gap-y-3 md:gap-4 lg:gap-5">
                       {main.subcategories.map((sub) => (
                         <Link
                           to={`/category/${encodeURIComponent(sub.name)}`}
                           key={sub.id}
-                          className="rounded-lg p-4 flex flex-col items-center transition-all cursor-pointer overflow-hidden hover:bg-gray-50"
+                          className="rounded-lg flex flex-col items-center transition-all cursor-pointer overflow-hidden hover:bg-gray-50"
                           onClick={() => setSelectedCategory(sub.name)}
                         >
-                          <div className="w-20 h-20 lg:rounded-3xl lg:w-[300px] lg:h-[300px] mb-3 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden">
+                          <div className="w-20 h-20 border border-[#0000001a] lg:rounded-3xl lg:w-[300px] lg:h-[300px] mb-3 bg-white rounded-lg shadow-sm flex items-center justify-center overflow-hidden">
                             <img
                               src={sub.imageBase64 || allproduct}
                               alt={sub.name}

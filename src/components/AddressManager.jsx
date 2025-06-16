@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { db } from '../Firebase';
 import { collection, query, where, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { BiCurrentLocation } from "react-icons/bi";
 import { MapPin, Plus, Trash, Navigation } from 'lucide-react';
 
 const AddressManager = ({ onSelectAddress, selectedAddressId, hideAddressForm = false }) => {
@@ -227,20 +228,20 @@ const AddressManager = ({ onSelectAddress, selectedAddressId, hideAddressForm = 
       {/* Add New Address Form */}
       {!hideAddressForm && (
         !showAddForm ? (
-          <div className="flex gap-2">
+          <div className="flex justify-between">
             <button
               onClick={getCurrentLocation}
-              className="flex items-center gap-2 text-green-600 hover:text-green-700"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#fff] shadow-sm border border-[#0000000a] text-green-600 hover:text-green-700"
             >
-              <Navigation size={20} />
-              Use Current Location
+              <BiCurrentLocation size={20} />
+              Current
             </button>
             <button
               onClick={() => setShowAddForm(true)}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#fff] shadow-sm border border-[#0000000a] text-blue-600 hover:text-blue-700"
             >
               <Plus size={20} />
-              Add New Address
+              Add New
             </button>
           </div>
         ) : (

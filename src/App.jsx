@@ -47,6 +47,9 @@ import ShippingDelivery from './components/ShippingDelivery'
 import TermsAndConditions from './components/TermsAndConditions'
 import ContactUs from './components/ContactUs'
 import CancellationRefundPolicy from "./components/CancellationRefundPolicy";
+import AdminLogin from "./components/AdminLogin";
+import DeliveryLogin from "./components/DeliveryLogin";
+import LocationSetup from "./components/LocationSetup";
 // Protected Route Component
 
 const ProtectedRoute = ({ children }) => {
@@ -135,10 +138,13 @@ function AppRoutes() {
           <Route path="/dashboard/edit-delivery-boy/:id" element={<EditDeliveryBoy />} />
           <Route path="/delivery-dashboard" element={<DeliveryDashboard />} />
           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/Admin@9400361911" element={<AdminLogin />} />
+          <Route path="/deliveryLogin" element={<DeliveryLogin />} />
           {/* <Route path="/refundpolicy" element={<RefundPolicy />} />
           <Route path="/cancellationpolicy" element={<CancellationPolicy />} /> */}
           <Route path="/shippingdelivery" element={<ShippingDelivery />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
+          <Route path="/locationSetup" element={<LocationSetup />} />
           <Route path="/cancellationRefundpolicy" element={<CancellationRefundPolicy />} />
           <Route path="/contact" element={<ContactUs />} />
 

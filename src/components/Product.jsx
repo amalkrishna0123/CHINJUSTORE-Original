@@ -1088,42 +1088,52 @@ const ProductDetail = () => {
 
               {/* Actions */}
               <div className="flex flex-col md:flex-row gap-4">
-                <button
-                  onClick={() => {
-                    const isInCart = cartItems.some(
-                      (item) => item.id === product.id
-                    );
-                    isInCart ? removeFromCart(product.id) : addToCart(product);
-                  }}
-                  className={`w-full md:w-auto flex-1 rounded-lg py-3 px-6 flex items-center justify-center ${
-                    cartItems.some((item) => item.id === product.id)
-                      ? "bg-green-600 hover:bg-green-700 text-white"
-                      : "bg-blue-600 hover:bg-blue-700 text-white"
-                  }`}
-                >
-                  {cartItems.some((item) => item.id === product.id) ? (
-                    <>
-                      <svg
-                        className="w-4 h-4 mr-2"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      Added to Cart
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart size={16} className="mr-2" /> Add to Cart
-                    </>
-                  )}
-                </button>
+                {product.stock === "Available" ? (
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      const isInCart = cartItems.some((item) => item.id === product.id);
+      isInCart ? removeFromCart(product.id) : addToCart(product);
+    }}
+    className={`w-full rounded-lg py-2 mt-2 text-sm font-medium transition-colors flex items-center justify-center ${
+      cartItems.some((item) => item.id === product.id)
+        ? "bg-green-600 hover:bg-green-700 text-white"
+        : "bg-blue-600 hover:bg-blue-700 text-white"
+    }`}
+  >
+    {cartItems.some((item) => item.id === product.id) ? (
+      <>
+        <svg
+          className="w-4 h-4 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+        Added to Cart
+      </>
+    ) : (
+      <>
+        <ShoppingCart size={16} className="mr-2" />
+        Add to Cart
+      </>
+    )}
+  </button>
+) : (
+  <button
+    disabled
+    className="w-full rounded-lg py-2 mt-2 text-sm font-medium bg-gray-300 text-gray-500 cursor-not-allowed"
+  >
+    Out of Stock
+  </button>
+)}
+
 
                 <button
                   onClick={() => toggleWishlist(product)}
